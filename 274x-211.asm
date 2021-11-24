@@ -149,6 +149,8 @@ go_on:
         jmp     I13FinishWithAH
 
         org     184Ah
+I13E_common_stc:
+        stc
 I13E_common:
         sbb     dx,dx
         call    ResetLocalState
@@ -187,16 +189,13 @@ usual_case:
 
 I13E_read:
         mov     cx, 0028h
-        stc
-        jmp     I13E_common
+        jmp     I13E_common_stc
 I13E_write:
         mov     cx, 002Ah
-        stc
-        jmp     I13E_common
+        jmp     I13E_common_stc
 I13E_verify:
         mov     cx, 082Fh
-        stc
-        jmp     I13E_common
+        jmp     I13E_common_stc
 I13E_seek:
         test    byte ptr [bp+BIOSFlags], BF_IgnoreSeek  ; TEST always clears CF
         jnz     return_ok
