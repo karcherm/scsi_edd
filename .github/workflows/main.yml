@@ -20,11 +20,14 @@ jobs:
         run: |
           jwasm -Zm -Fo274x-211.obj 274x-211.asm
           jwasm -Zm -Fo284x-101.obj 284x-101.asm
+          jwasm -Zm -Foa7-142.obj a7-142.asm
       - uses: actions/upload-artifact@v2
         with:
           name: scsi_edd
           path: |
             274x-211.obj
             284x-101.obj
+            a7-142.obj
             bios16k.map
             bios1632.map
+            a7-142.map
