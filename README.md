@@ -37,7 +37,7 @@ Patches for new BIOS versions
 -----------------------------
 
 If your BIOS version doesn't match any of the provided patches you can try creating your own patch by finding the corresponding offsets in your BIOS image. That's an example how 284x 2.00 patch was created:
-1. Create copy of asm file for your controller model (for example 284x-201.asm).
+1. Create copy of asm file for similar controller model (for example 284x-201.asm).
 2. Get the data located within offset variable in known BIOS version, 4 bytes is enough.
    `ResetLocalStateOfs  = 0C80h` - in version 1.01 of the BIOS you can find such values: `06 51 8A 46`
 3. Find the offset of these 4 bytes in your BIOS version - they should be not far from the original offset.
