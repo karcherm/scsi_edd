@@ -15,8 +15,8 @@ Patches for following SCSI BIOSes is included
 Controller | Version | patch object  | map file     | ROM chip size
 -----------|---------|---------------|--------------|---------------
 AHA-274x   | 2.11    | 274x-211.obj  | bios16k.map  | 32KB (256kBit)
-AHA-284x   | 1.01    | 284x-101.obj  | bios1632.map | 64KB (512kBit)
-AHA-284x   | 2.0     | 284x-20.obj   | bios1632.map | 64KB (512kBit)
+AHA-284xVL | 1.01    | 284x-101.obj  | bios1632.map | 64KB (512kBit)
+AHA-284xA  | 2.0     | 284x-20.obj   | bios1632.map | 64KB (512kBit)
 
 Furthermore, a patch for the following ASPI driver is included
 
@@ -25,11 +25,11 @@ Driver       | Version | patch object | map file   | file size
 ASPI7DOS.SYS | 1.42    | a7-142.obj   | a7-142.map | 36160 bytes
 
 Note that the latest 274x BIOS (2.11) seems to not be available for download from the Adaptec / MicroSemi. Their page has version 2.10. This patch *does not apply to version 2.10*. You can obtain the ROM image by reading it from an controller that has the latest version. The ROM chip is an OTP chip labelled `549306-00 D BIOS 7D00 (c) 1993`.
-The same applies to 284x - only BIOS version 1.01 is available on Adaptec site while controller may have version 2.0. Please note that BIOS version "downgrade" (even non-patched one) can cause problems in controller behavior and use the same or newer BIOS versions than you currently have.
+The same applies to 284xA: while BIOS version 1.01 is available on the Adaptec site, it seems to work only with 2842VL controllers. The revised 2842A controller shipped with BIOS 2.0, which is not available on the Adaptec site, and fails to work with the 1.01 BIOS. I also expect the 2842VL to fail with the 2.0 BIOS.
 
 You can run `omfpatch 274x-211.bin bios16k.map 274x-211.obj` to create a patched BIOS image for the 2740.
-You can run `omfpatch 284x-101.bin bios1632.map 284x-101.obj` to create a patched BIOS image for the 2840 BIOS v1.01.
-You can run `omfpatch 284x-20.bin bios1632.map 284x-20.obj` to create a patched BIOS image for the 2840 BIOS v2.0.
+You can run `omfpatch 284x-101.bin bios1632.map 284x-101.obj` to create a patched BIOS image for the 2840VL.
+You can run `omfpatch 284x-20.bin bios1632.map 284x-20.obj` to create a patched BIOS image for the 2840A.
 
 The patched BIOS identifies itself as "2.11 EDD 1.0" instead of just "2.11 Release" to indicate the *extended disk drive* specification.
 
@@ -50,4 +50,4 @@ To compile your new patch file use the command `jwasm -Zm 284x-201.asm`.
 Disclaimer
 ----------
 
-If you patch your BIOS and something goes wrong, the computer may become unbootable. It is recommended that you have a way to recover your BIOS, like an external flasher connected to a different computer. Make a backup of your BIOS before your install a patched BIOS.
+If you patch your BIOS and something goes wrong, the computer may become unbootable. It is recommended that you have a way to recover your BIOS, like an external flasher connected to a different computer. Make a backup of your BIOS before you install a patched BIOS.
