@@ -18,6 +18,7 @@ jobs:
           jwasm: true
       - name: Assemble the patch
         run: |
+          jwasm -Zm -Fo152xB115.obj 152xB115.asm
           jwasm -Zm -Fo274x-211.obj 274x-211.asm
           jwasm -Zm -Fo284x-101.obj 284x-101.asm
           jwasm -Zm -Fo284x-200.obj 284x-200.asm
@@ -29,6 +30,7 @@ jobs:
             274x-211.obj
             284x-101.obj
             284x-200.obj
+            152xB115.obj
             a7-142.obj
             bios16k.map
             bios1632.map
