@@ -76,15 +76,6 @@ I13R_DoneCallback LABEL NEAR
         org 4CEBh
 I13R_SetStatus LABEL NEAR
 
-        ; branch out before clobbering SI and DS
-        org 4994h
-        cmp     ah, 20h
-        jbe     SHORT I13_Classic
-        jmp     MaybeI13E
-I13_Classic:
-        mov     si, cs
-        mov     ds, si
-
         org 458Ah
         ; Big hole. It seems Adaptec reserved space for 88 BIOSDriveInfo
         ; structures instead of just 8 BIOSDriveInfo structures. So there
@@ -256,6 +247,15 @@ MyCDBExecute LABEL NEAR
         pop     ds
         ret
 I13E_core ENDP
+
+        ; branch out before clobbering SI and DS
+        org 4994h
+        cmp     ah, 20h
+        jbe     SHORT I13_Classic
+        jmp     MaybeI13E
+I13_Classic:
+        mov     si, cs
+        mov     ds, si
 
         org     53h
         ;db     "Version 1.42"
