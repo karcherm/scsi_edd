@@ -15,7 +15,7 @@ VersionOfs          = 18D8h
 
 PATCH_VERSION   MACRO
         ;db     "Release"
-        db      "EDD 1.0"
+        db      "EDD 1.1"
                 ENDM
 
 INCLUDE aic7770.asm

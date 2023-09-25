@@ -203,6 +203,19 @@ go_on:
         jmp     I13FinishWithAH
 
         org     MyInt15Ofs
+I13E_seek:
+        test    byte ptr [bp+BIOSFlags], BF_IgnoreSeek  ; TEST always clears CF
+        jnz     return_ok
+        mov     cx, 082Bh
+        jmp     I13E_common
+I13E_read:
+        mov     cx, 0028h
+        jmp     I13E_common_stc
+I13E_write:
+        mov     cx, 002Ah
+        jmp     I13E_common_stc
+I13E_verify:
+        mov     cx, 082Fh
 I13E_common_stc:
         stc
 I13E_common:
@@ -218,17 +231,19 @@ I13E_common:
         add     ax, ax
         mov     word ptr [bp+TransferLenLow + 1], ax ; transfer length
         ; set LBA (bswapping it)
-        mov     ax, es:[si+8]
+        add     si, 8
+        lods    [WORD PTR es:si]                     ; offset 8, si=+10
         xchg    ah, al
         mov     word ptr [bp+CDBdata + 4], ax
-        mov     ax, es:[si+10]
+        lods    [WORD PTR es:si]                     ; offset 10, si=+12
         xchg    ah, al
         mov     word ptr [bp+CDBdata + 2], ax
         test    [bp+VDSFlags], IsNoData
         jnz     no_data
-        les     bx, es:[si+4]
+        les     bx, es:[si-12+4]                     ; offset 4, correct for si change
         call    SetDataAddress
 no_data:
+        call    SetTarget
         call    ExecuteCommand
         cmp     ah, 1                   ; unsupported command
         jne     usual_case
@@ -240,21 +255,6 @@ return_ok:
 usual_case:
         jmp     I13FinishWithAH
 
-
-I13E_read:
-        mov     cx, 0028h
-        jmp     I13E_common_stc
-I13E_write:
-        mov     cx, 002Ah
-        jmp     I13E_common_stc
-I13E_verify:
-        mov     cx, 082Fh
-        jmp     I13E_common_stc
-I13E_seek:
-        test    byte ptr [bp+BIOSFlags], BF_IgnoreSeek  ; TEST always clears CF
-        jnz     return_ok
-        mov     cx, 082Bh
-        jmp     I13E_common
 
         org     VersionOfs
         PATCH_VERSION

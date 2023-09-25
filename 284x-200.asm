@@ -13,7 +13,7 @@ VersionOfs          = 4068h
 
 PATCH_VERSION   MACRO
         ;db     "/2842VL BIOS v1.01 "
-        db      " BIOS v2.0/EDD 1.0 "
+        db      " BIOS v2.0/EDD 1.1 "
                 ENDM
 
 INCLUDE aic7770.asm
